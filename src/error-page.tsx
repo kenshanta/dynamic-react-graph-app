@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
-  const error = useRouteError();
+  const error: any = useRouteError();
 
   return (
     <Box padding={5} id="error-page">

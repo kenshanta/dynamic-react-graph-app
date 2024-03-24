@@ -1,0 +1,39 @@
+#root {
+    text-align: start;
+}
+
+.App {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem 3rem 0 3rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: solid 1px;
+    border-radius: 5%;
+    padding: 1.2rem;
+}
+.interactivePanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0 1rem 5rem 1rem;
+    width: 29%;
+}
+.MuiSlider-markLabel {
+    display: none;
+}
+
+@media (max-width: 568px) {
+    .App {
+        flex-direction: column;
+        padding: 0 1rem 0 1rem;
+    }
+    .interactivePanel {
+        padding: 3rem 0 0 0;
+        width: 100%;
+    }
+}

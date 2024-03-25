@@ -43,8 +43,7 @@ export class HousingService {
       url: `https://data.ssb.no/api/v0/no/table/07241`,
       data: data,
     };
-    const response = await API.request<any>(config);
-    console.log(response, "need a type");
+    const response = await API.request(config);
     return response.data;
   }
 }

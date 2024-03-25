@@ -7,7 +7,9 @@ import housingStore from "./stores/housingStore";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./error-page.tsx";
 import { ToastContainer } from "react-toastify";
+import { ThemeProvider } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
+import theme from "./theme.ts";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         theme="dark"
         position="bottom-right"
       />
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
 );

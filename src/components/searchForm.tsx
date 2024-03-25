@@ -2,10 +2,7 @@ import React from "react";
 import { Box, Button, Slider, NativeSelect, InputLabel } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import {
-  getYearlyQuarters,
-  createQuarterToNumberMap,
-} from "../utils/getYearsQuarterly";
+import { getYearlyQuarters, createQuarterToNumberMap } from "../utils/helpers";
 import { toast } from "react-toastify";
 
 const quarterToNumberMap = createQuarterToNumberMap(getYearlyQuarters());
@@ -42,13 +39,12 @@ const SearchForm: React.FC<SearchFormProps> = ({ handleRegistration }) => {
     }
   }, [errors]);
   return (
-    <Box paddingX={1}>
+    <Box>
       <form className="form" onSubmit={handleSubmit(handleRegistration)}>
         <InputLabel>Housing Type</InputLabel>
-        <Box paddingBottom={7}>
+        <Box paddingBottom={5}>
           <NativeSelect
             size="small"
-            // label="apartmentType"
             defaultValue={houseNumber}
             {...register("apartmentType", { required: true })}
             variant="outlined"
@@ -63,7 +59,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ handleRegistration }) => {
           </NativeSelect>
         </Box>
         <InputLabel>Quarterly range</InputLabel>
-        <Box paddingBottom={2}>
+        <Box>
           <Controller
             name="quarterly"
             control={control}
@@ -83,12 +79,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ handleRegistration }) => {
           />
         </Box>
         <Box display={"flex"} justifyContent={"center"} flexDirection={"row"}>
-          <Button
-            size="large"
-            variant="contained"
-            type="submit"
-            sx={{ backgroundColor: "rgb(0, 032, 091)", color: "white" }}
-          >
+          <Button size="large" variant="contained" type="submit">
             Submit
           </Button>
         </Box>

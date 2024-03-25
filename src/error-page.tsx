@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
+  // will not accept any other type like `unknown`
   const error: any = useRouteError();
 
   return (

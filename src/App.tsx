@@ -13,13 +13,12 @@ import {
   LineController,
   BarController,
 } from "chart.js";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { HousingService } from "./services";
-import {
-  getYearlyQuarters,
-  createNumberToQuarterMap,
-} from "./utils/getYearsQuarterly";
+import { getYearlyQuarters, createNumberToQuarterMap } from "./utils/helpers";
+import { clearHistoryEntry, createHistoryEntry } from "./stores/historySlice";
 import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import ConfirmationDialog from "./components/confirmationDialog";
 import CustomChart from "./components/customChart";
 import SearchHistoryList from "./components/searchHistoryList";
@@ -38,10 +37,10 @@ ChartJS.register(
 );
 
 const App: React.FC = () => {
-  const { houseNumber = "00", from = "3", to = "7" } = useParams();
-  const [urlHistory, setUrlHistory] = React.useState([""]);
-  const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { houseNumber = "00", from = "3", to = "7" } = useParams();
+  const [open, setOpen] = React.useState(false);
   const [newData, setNewData] = React.useState({
     labels: [""],
     datasets: [
@@ -62,6 +61,7 @@ const App: React.FC = () => {
       },
     ],
   });
+
   React.useEffect(() => {
     const fetchData = async () => {
       if (houseNumber && from && to) {
@@ -74,58 +74,73 @@ const App: React.FC = () => {
           housingType: [houseNumber],
         };
         const response = await HousingService.getInitialHousing(props);
-        updateNewData(response);
+        setNewData((prevState) => {
+          return {
+            ...prevState,
+            labels: Object.keys(response.dimension.Tid.category.label),
+            datasets: prevState.datasets.map((dataset) => ({
+              ...dataset,
+              data: response.value,
+            })),
+          };
+        });
       }
     };
     fetchData();
   }, []);
 
-  const updateNewData = (data: any) => {
-    setNewData((prev) => {
-      const updatedDatasets = prev.datasets.slice();
-      updatedDatasets[0].data = data.value;
-      updatedDatasets[1].data = data.value;
-      let updatedLabels: string[] = prev.labels.slice();
-      updatedLabels = Object.keys(data.dimension.Tid.category.label);
-
-      return {
-        labels: updatedLabels,
-        datasets: updatedDatasets,
-      };
-    });
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleRegistration = async (data: {
     apartmentType: string;
     quarterly: number[];
   }) => {
+    setOpen(true);
     const ranges = createNumberToQuarterMap(data.quarterly);
     const props = {
       quarterlyRange: getYearlyQuarters(ranges[0], ranges[1]),
       housingType: [data.apartmentType],
     };
     const response = await HousingService.getInitialHousing(props);
-    updateNewData(response);
+    setNewData((prevState) => {
+      return {
+        ...prevState,
+        labels: Object.keys(response.dimension.Tid.category.label),
+        datasets: prevState.datasets.map((dataset) => ({
+          ...dataset,
+          data: response.value,
+        })),
+      };
+    });
     navigate(
       `/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`,
     );
-    setOpen(true);
+    dispatch(createHistoryEntry(window.location.href));
   };
 
   return (
     <Box className="App" columnGap={9}>
       <CustomChart data={newData} />
       <Box className="interactivePanel">
-        <ConfirmationDialog
-          open={open}
-          handleClose={handleClose}
-          setUrlHistory={setUrlHistory}
-        />
+        <ConfirmationDialog open={open} setOpen={setOpen} />
         <SearchForm handleRegistration={handleRegistration} />
-        <SearchHistoryList urlHistory={urlHistory} />
+        <SearchHistoryList />
+        {localStorage.getItem("historyUrl") ? (
+          <Box
+            mt={2}
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"flex-end"}
+          >
+            <Button
+              onClick={() => dispatch(clearHistoryEntry())}
+              variant="contained"
+              size="small"
+            >
+              Clear history
+            </Button>
+          </Box>
+        ) : (
+          ""
+        )}
       </Box>
     </Box>
   );

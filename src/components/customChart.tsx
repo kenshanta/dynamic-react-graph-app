@@ -1,9 +1,10 @@
 import React from "react";
+import { ChartType } from "chartjs";
 import { Chart } from "react-chartjs-2";
 import { Box } from "@mui/material";
 
 interface Datasets {
-  type: any;
+  type: ChartType;
   label: string;
   borderColor: string;
   borderWidth: number;
@@ -21,6 +22,7 @@ const CustomChart: React.FC<CustomChartProps> = ({ data }) => {
       title: {
         display: true,
         text: "Housing prices in Norway 🇳🇴 split over yearly quarters",
+        font: { size: 17 },
       },
     },
   };

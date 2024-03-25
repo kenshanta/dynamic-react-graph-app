@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import housingReducer from "./slice";
+import historyUrlReducer from "./historySlice";
 
-const housingStore = configureStore({ reducer: { housing: housingReducer } });
+const housingStore = configureStore({
+  reducer: { history: historyUrlReducer },
+});
 
 export default housingStore;

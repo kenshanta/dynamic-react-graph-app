@@ -7,27 +7,31 @@ import {
   DialogContentText,
   Button,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { addHistoryEntry, removeHistoryEntry } from "../stores/historySlice";
 
 interface ConfirmationDialogProps {
-  handleClose: () => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
   open: boolean;
-  setUrlHistory: Dispatch<SetStateAction<string[]>>;
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
-  handleClose,
+  setOpen,
   open,
-  setUrlHistory,
 }) => {
+  const dispatch = useDispatch();
   const onConfirm = () => {
-    setUrlHistory((prev) => [`${window.location.href}`, ...prev]);
-    handleClose();
+    dispatch(addHistoryEntry());
+    setOpen(false);
   };
-
+  const handleClose = () => {
+    setOpen(false);
+    dispatch(removeHistoryEntry());
+  };
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={() => setOpen(false)}
       aria-describedby="alert-dialog-slide-description"
     >
       <DialogTitle>{"Use search history service?"}</DialogTitle>

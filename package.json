@@ -26,6 +26,7 @@
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
+    "@types/chartjs": "^0.0.31",
     "@types/faker": "^6.6.9",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",

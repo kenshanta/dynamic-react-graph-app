@@ -5,14 +5,14 @@
 .App {
     display: flex;
     flex-direction: row;
-    padding: 2rem 3rem 0 3rem;
+    padding: 0 3rem 0 3rem;
 }
 
 .form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: solid 1px;
+    border: solid 1px rgb(0, 032, 091);
     border-radius: 5%;
     padding: 1.2rem;
 }

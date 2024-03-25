@@ -1,10 +1,9 @@
 import React from "react";
-import { ChartType } from "chartjs";
 import { Chart } from "react-chartjs-2";
 import { Box } from "@mui/material";
 
 interface Datasets {
-  type: ChartType;
+  type: any;
   label: string;
   borderColor: string;
   borderWidth: number;

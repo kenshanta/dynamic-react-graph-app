@@ -1,8 +1,6 @@
 import { API } from "./apis";
 import { AxiosRequestConfig } from "axios";
-/**
- *  Api service used to manage & handle orders
- */
+
 export class HousingService {
   async getInitialHousing(
     props = {

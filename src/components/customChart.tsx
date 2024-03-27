@@ -18,10 +18,20 @@ interface CustomChartProps {
 const CustomChart: React.FC<CustomChartProps> = ({ data }) => {
   const options = {
     plugins: {
+      legend: {
+        display: true,
+        responsive: true,
+        position: "bottom",
+        padding: 20,
+        labels: {
+          boxWidth: 25,
+        },
+      },
       title: {
+        padding: 20,
         display: true,
         text: "Housing prices in Norway 🇳🇴 split over yearly quarters",
-        font: { size: 17 },
+        font: { size: 19 },
       },
     },
   };

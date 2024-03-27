@@ -43,7 +43,9 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Disagree</Button>
-        <Button onClick={onConfirm}>Agree</Button>
+        <Button variant="contained" onClick={onConfirm}>
+          Agree
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -49,7 +49,7 @@ const SearchHistoryList: React.FC = () => {
           Search History:
         </Typography>
       </Box>
-      <Box pt={0} p={3}>
+      <Box p={3} pt={0}>
         <List sx={{ listStyleType: "disc" }}>
           {memoryHistory!.map((history: string, index: number) => (
             <ListItem sx={{ display: "list-item", padding: 0 }} key={index}>

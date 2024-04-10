@@ -18,7 +18,8 @@ import { HousingService } from "./services";
 import { getYearlyQuarters, createNumberToQuarterMap } from "./utils/helpers";
 import { clearHistoryEntry, createHistoryEntry } from "./stores/historySlice";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import ConfirmationDialog from "./components/confirmationDialog";
 import CustomChart from "./components/customChart";
 import SearchHistoryList from "./components/searchHistoryList";
@@ -41,6 +42,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const { houseNumber = "00", from = "3", to = "7" } = useParams();
   const [open, setOpen] = React.useState(false);
+  const searchHistoryList = useSelector((state) => state.history.history);
   const [newData, setNewData] = React.useState({
     labels: [""],
     datasets: [
@@ -93,7 +95,21 @@ const App: React.FC = () => {
     apartmentType: string;
     quarterly: number[];
   }) => {
-    setOpen(true);
+    if (
+      !searchHistoryList.includes(
+        `${window.location.protocol}//${window.location.host}/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`,
+      )
+    ) {
+      setOpen(true);
+    }
+    if (
+      searchHistoryList.includes(
+        `${window.location.protocol}//${window.location.host}/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`,
+      )
+    ) {
+      toast("History already in list", { type: "success" });
+      return;
+    }
     const ranges = createNumberToQuarterMap(data.quarterly);
     const props = {
       quarterlyRange: getYearlyQuarters(ranges[0], ranges[1]),
@@ -135,7 +151,7 @@ const App: React.FC = () => {
               variant="contained"
               size="small"
             >
-              Clear history
+              Clear History
             </Button>
           </Box>
         ) : (

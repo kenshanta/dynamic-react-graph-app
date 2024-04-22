@@ -6,7 +6,6 @@
     display: flex;
     flex-direction: row;
     padding: 0 3rem 0 3rem;
-    align-items: center;
 }
 
 .form {
@@ -17,6 +16,7 @@
     border-radius: 5%;
     padding: 1.2rem;
 }
+
 .interactivePanel {
     display: flex;
     flex-direction: column;
@@ -24,6 +24,7 @@
     padding: 0 1rem 0 1rem;
     width: 29%;
 }
+
 .MuiSlider-markLabel {
     display: none;
 }

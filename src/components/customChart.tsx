@@ -1,6 +1,7 @@
 import React from "react";
 import { Chart } from "react-chartjs-2";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { getHouseName } from "../utils/helpers";
 
 interface Datasets {
   type: any;
@@ -14,8 +15,9 @@ interface CustomChartProps {
     labels: string[];
     datasets: Datasets[];
   };
+  houseNumber: string;
 }
-const CustomChart: React.FC<CustomChartProps> = ({ data }) => {
+const CustomChart: React.FC<CustomChartProps> = ({ data, houseNumber }) => {
   const options = {
     plugins: {
       legend: {
@@ -35,9 +37,39 @@ const CustomChart: React.FC<CustomChartProps> = ({ data }) => {
       },
     },
   };
+
   return (
     <Box flexGrow={1}>
       <Chart options={options} type="bar" data={data} />
+      <Box marginTop={5}>
+        <Box
+          display={"flex"}
+          flexDirection={"row"}
+          alignItems={"center"}
+          justifyContent={"space-around"}
+        >
+          <Box display={"flex"} flexDirection={"column"}>
+            <Box>
+              <Typography variant="caption">🏠 HousingType: {""} </Typography>
+            </Box>
+            <Box>
+              <Typography variant="h6" paddingLeft={9}>
+                {getHouseName(houseNumber)}
+              </Typography>
+            </Box>
+          </Box>
+          <Box display={"flex"} flexDirection={"column"}>
+            <Box>
+              <Typography variant="caption">🕰️ Range:</Typography>
+            </Box>
+            <Box>
+              <Typography variant="h6" paddingLeft={5}>
+                {data.labels[0] + " - " + data.labels[data.labels.length - 1]}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 };

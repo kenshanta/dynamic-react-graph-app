@@ -3,7 +3,7 @@ import { useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
   // will not accept any other type like `unknown`
-  const error: any = useRouteError();
+  const error: unknown = useRouteError();
 
   return (
     <Box padding={5} id="error-page">

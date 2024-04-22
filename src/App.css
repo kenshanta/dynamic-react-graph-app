@@ -16,13 +16,15 @@
     border-radius: 5%;
     padding: 1.2rem;
 }
+
 .interactivePanel {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 0 1rem 5rem 1rem;
+    padding: 0 1rem 0 1rem;
     width: 29%;
 }
+
 .MuiSlider-markLabel {
     display: none;
 }
@@ -33,7 +35,7 @@
         padding: 0 1rem 0 1rem;
     }
     .interactivePanel {
-        padding: 3rem 0 0 0;
+        padding: 2rem 0 0 0;
         width: 100%;
     }
 }

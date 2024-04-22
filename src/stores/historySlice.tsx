@@ -5,7 +5,7 @@ interface InitialStateProps {
 }
 
 const initialState: InitialStateProps = {
-  history: [],
+  history: JSON.parse(localStorage.getItem("historyUrl") || "[]"),
 };
 
 const historySlice = createSlice({
@@ -24,7 +24,7 @@ const historySlice = createSlice({
     clearHistoryEntry(state) {
       localStorage.clear();
       state.history = [];
-      window.location.reload();
+      // window.location.reload();
     },
   },
 });

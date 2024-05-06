@@ -15,7 +15,7 @@ This ReactJs project is designed to visualize data via a combined bar and linear
 
 - **Custom Filters**: Easily check interval changes based on housing type and yearly quarter ranges.
 - **Interactive/Dynamic Graph**: A graph that updates data real-time and has interactive features.
-- **Consensual History Tracking**: Maintain a record of all filter requests made in the browser's local storage.
+- **Consensual History Tracking**: Maintain a record of all filter requests made in the browser's local storage. _(which is preserved until cleared by user themselves)_
 - **Shareable Results**: The results obtained from fitlering can be shared with any other user by sharing the url with the parameters
 
 ## ⇟ Installation:

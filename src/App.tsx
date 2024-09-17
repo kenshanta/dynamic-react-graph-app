@@ -16,7 +16,11 @@ import {
 import { Box, Button, CircularProgress } from "@mui/material";
 import { HousingService } from "./services";
 import { getYearlyQuarters, createNumberToQuarterMap } from "./utils/helpers";
-import { clearHistoryEntry, createHistoryEntry } from "./stores/historySlice";
+import {
+  clearHistoryEntry,
+  createHistoryEntry,
+  addHistoryEntry,
+} from "./stores/historySlice";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -34,14 +38,14 @@ ChartJS.register(
   Title,
   Tooltip,
   LineController,
-  BarController,
+  BarController
 );
 
 const App: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { houseNumber = "00", from = "3", to = "7" } = useParams();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(!sessionStorage.getItem("agreed"));
   const searchHistoryList = useSelector((state: any) => state.history.history); //TODO: add type
   const [newData, setNewData] = React.useState({
     labels: [""],
@@ -95,24 +99,30 @@ const App: React.FC = () => {
     apartmentType: string;
     quarterly: number[];
   }) => {
-    if (
-      !searchHistoryList.includes(
-        `${window.location.protocol}//${window.location.host}/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`,
-      )
-    ) {
+    console.log(searchHistoryList, "------");
+    if (searchHistoryList.length === 0 && !sessionStorage.getItem("agreed")) {
       setOpen(true);
     } else if (
       searchHistoryList.includes(
-        `${window.location.protocol}//${window.location.host}/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`,
+        `${window.location.protocol}//${window.location.host}/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`
       )
     ) {
       toast("History already in list", { type: "success" });
       return;
+    } else if (sessionStorage.getItem("agreed") === "true") {
+      console.log(window.location.search, "parameter?");
+      dispatch(createHistoryEntry(window.location.href));
+      dispatch(addHistoryEntry());
+      navigate(
+        `/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`
+      );
+      return;
     }
-    navigate(
-      `/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`,
-    );
     dispatch(createHistoryEntry(window.location.href));
+
+    navigate(
+      `/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`
+    );
   };
 
   return (
@@ -134,7 +144,7 @@ const App: React.FC = () => {
         <ConfirmationDialog open={open} setOpen={setOpen} />
         <SearchForm handleRegistration={handleRegistration} />
         <SearchHistoryList />
-        {localStorage.getItem("historyUrl") ? (
+        {sessionStorage.getItem("historyUrl") ? (
           <Box
             mt={2}
             display={"flex"}

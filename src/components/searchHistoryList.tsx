@@ -3,7 +3,9 @@ import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import { createNumberToQuarterMap, getHouseName } from "../utils/helpers";
 
 const SearchHistoryList: React.FC = () => {
-  const memoryHistory = JSON.parse(localStorage.getItem("historyUrl") || "[]");
+  const memoryHistory = JSON.parse(
+    sessionStorage.getItem("historyUrl") || "[]"
+  );
   if (memoryHistory.length === 0) {
     return (
       <Box

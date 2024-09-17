@@ -5,7 +5,7 @@ interface InitialStateProps {
 }
 
 const initialState: InitialStateProps = {
-  history: JSON.parse(localStorage.getItem("historyUrl") || "[]"),
+  history: JSON.parse(sessionStorage.getItem("historyUrl") || "[]"),
 };
 
 const historySlice = createSlice({
@@ -16,13 +16,20 @@ const historySlice = createSlice({
       state.history = [...state.history, action.payload];
     },
     addHistoryEntry(state) {
-      localStorage.setItem("historyUrl", JSON.stringify([...state.history]));
+      sessionStorage.setItem("historyUrl", JSON.stringify([...state.history]));
+    },
+    addAgreementEntry() {
+      sessionStorage.setItem("agreed", "true");
+    },
+    addDisagreementEntry() {
+      sessionStorage.setItem("agreed", "false");
     },
     removeHistoryEntry(state) {
       state.history.pop();
     },
     clearHistoryEntry(state) {
-      localStorage.clear();
+      sessionStorage.removeItem("historyUrl");
+      sessionStorage.removeItem("agreed");
       state.history = [];
       // window.location.reload();
     },
@@ -34,5 +41,7 @@ export const {
   createHistoryEntry,
   clearHistoryEntry,
   removeHistoryEntry,
+  addAgreementEntry,
+  addDisagreementEntry,
 } = historySlice.actions;
 export default historySlice.reducer;

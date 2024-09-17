@@ -8,7 +8,12 @@ import {
   Button,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { addHistoryEntry, removeHistoryEntry } from "../stores/historySlice";
+import {
+  addHistoryEntry,
+  removeHistoryEntry,
+  addAgreementEntry,
+  addDisagreementEntry,
+} from "../stores/historySlice";
 
 interface ConfirmationDialogProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -21,11 +26,14 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
 }) => {
   const dispatch = useDispatch();
   const onConfirm = () => {
+    dispatch(addAgreementEntry());
     dispatch(addHistoryEntry());
     setOpen(false);
   };
   const handleClose = () => {
     setOpen(false);
+    dispatch(addDisagreementEntry());
+
     dispatch(removeHistoryEntry());
   };
   return (

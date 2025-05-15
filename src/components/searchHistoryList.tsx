@@ -3,22 +3,12 @@ import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import { createNumberToQuarterMap, getHouseName } from "../utils/helpers";
 
 const SearchHistoryList: React.FC = () => {
-  const memoryHistory = JSON.parse(
-    sessionStorage.getItem("historyUrl") || "[]"
-  );
+  const memoryHistory = JSON.parse(sessionStorage.getItem("historyUrl") || "[]");
   if (memoryHistory.length === 0) {
     return (
-      <Box
-        mt={3}
-        p={3}
-        sx={{ border: "double rgb(0, 032, 091)", borderRadius: "5%" }}
-      >
+      <Box mt={3} p={3}>
         <Typography fontWeight={"bold"} variant="h5">
           No search history yet
-        </Typography>
-        <Typography variant="h6" fontStyle={"italic"} pt={1}>
-          * note that you will need to agree to save session upon <b>every</b>{" "}
-          request
         </Typography>
       </Box>
     );
@@ -35,17 +25,7 @@ const SearchHistoryList: React.FC = () => {
   }
 
   return (
-    <Box
-      display={"flex"}
-      mt={3}
-      flexDirection={"column"}
-      height={"17rem"}
-      sx={{
-        overflowY: "auto",
-        border: "dashed rgb(0, 032, 091)",
-        borderRadius: "5%",
-      }}
-    >
+    <Box display={"flex"} flexDirection={"column"}>
       <Box p={2} pb={0}>
         <Typography sx={{ textDecoration: "underline" }} variant="h5">
           Search History:

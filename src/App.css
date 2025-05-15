@@ -1,41 +1,41 @@
 #root {
-    text-align: start;
+  text-align: start;
 }
 
 .App {
-    display: flex;
-    flex-direction: row;
-    padding: 0 3rem 0 3rem;
+  display: flex;
+  flex-direction: row;
+  padding: 0 3rem 0 3rem;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: solid 1px rgb(0, 032, 091);
-    border-radius: 5%;
-    padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: solid 1px rgb(0, 032, 091);
+  border-radius: 5%;
+  padding: 1.2rem;
 }
 
 .interactivePanel {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 0 1rem 0 1rem;
-    width: 29%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0 1rem 0 1rem;
+  width: 29%;
 }
 
 .MuiSlider-markLabel {
-    display: none;
+  display: none;
 }
 
 @media (max-width: 568px) {
-    .App {
-        flex-direction: column;
-        padding: 0 1rem 0 1rem;
-    }
-    .interactivePanel {
-        padding: 2rem 0 0 0;
-        width: 100%;
-    }
+  .App {
+    flex-direction: column;
+    padding: 0 1rem 0 1rem;
+  }
+  .interactivePanel {
+    padding: 2rem 0 0 0;
+    width: 100%;
+  }
 }

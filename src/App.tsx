@@ -16,11 +16,7 @@ import {
 import { Box, Button, CircularProgress } from "@mui/material";
 import { HousingService } from "./services";
 import { getYearlyQuarters, createNumberToQuarterMap } from "./utils/helpers";
-import {
-  clearHistoryEntry,
-  createHistoryEntry,
-  addHistoryEntry,
-} from "./stores/historySlice";
+import { clearHistoryEntry, createHistoryEntry, addHistoryEntry } from "./stores/historySlice";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -28,6 +24,7 @@ import ConfirmationDialog from "./components/confirmationDialog";
 import CustomChart from "./components/customChart";
 import SearchHistoryList from "./components/searchHistoryList";
 import SearchForm from "./components/searchForm";
+
 ChartJS.register(
   LinearScale,
   CategoryScale,
@@ -71,10 +68,7 @@ const App: React.FC = () => {
   React.useMemo(() => {
     const fetchData = async () => {
       if (houseNumber && from && to) {
-        const quartersMap = createNumberToQuarterMap([
-          parseInt(from),
-          parseInt(to),
-        ]);
+        const quartersMap = createNumberToQuarterMap([parseInt(from), parseInt(to)]);
         const props = {
           quarterlyRange: getYearlyQuarters(quartersMap[0], quartersMap[1]),
           housingType: [houseNumber],
@@ -95,14 +89,11 @@ const App: React.FC = () => {
     fetchData();
   }, [houseNumber, from, to]);
 
-  const handleRegistration = async (data: {
-    apartmentType: string;
-    quarterly: number[];
-  }) => {
-    console.log(searchHistoryList, "------");
+  const handleRegistration = async (data: { apartmentType: string; quarterly: number[] }) => {
     if (searchHistoryList.length === 0 && !sessionStorage.getItem("agreed")) {
       setOpen(true);
     } else if (
+      sessionStorage.getItem("agreed") === "true" &&
       searchHistoryList.includes(
         `${window.location.protocol}//${window.location.host}/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`
       )
@@ -113,16 +104,12 @@ const App: React.FC = () => {
       console.log(window.location.search, "parameter?");
       dispatch(createHistoryEntry(window.location.href));
       dispatch(addHistoryEntry());
-      navigate(
-        `/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`
-      );
+      navigate(`/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`);
       return;
     }
     dispatch(createHistoryEntry(window.location.href));
 
-    navigate(
-      `/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`
-    );
+    navigate(`/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`);
   };
 
   return (
@@ -135,7 +122,7 @@ const App: React.FC = () => {
           display={"flex"}
           flexDirection={"row"}
           alignItems={"center"}
-          justifyContent={"center"}
+          justifyContent={"space-around"}
         >
           <CircularProgress />
         </Box>
@@ -143,25 +130,22 @@ const App: React.FC = () => {
       <Box className="interactivePanel">
         <ConfirmationDialog open={open} setOpen={setOpen} />
         <SearchForm handleRegistration={handleRegistration} />
-        <SearchHistoryList />
-        {sessionStorage.getItem("historyUrl") ? (
-          <Box
-            mt={2}
-            display={"flex"}
-            flexDirection={"row"}
-            justifyContent={"flex-end"}
-          >
-            <Button
-              onClick={() => dispatch(clearHistoryEntry())}
-              variant="contained"
-              size="small"
-            >
-              Clear History
-            </Button>
-          </Box>
-        ) : (
-          ""
-        )}
+        <Box p={3} sx={{ border: "dashed rgb(0, 032, 091)", borderRadius: "5%" }}>
+          <SearchHistoryList />
+          {sessionStorage.getItem("historyUrl") ? (
+            <Box mt={2} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"}>
+              <Button
+                onClick={() => dispatch(clearHistoryEntry())}
+                variant="contained"
+                size="small"
+              >
+                Clear History
+              </Button>
+            </Box>
+          ) : (
+            ""
+          )}
+        </Box>
       </Box>
     </Box>
   );

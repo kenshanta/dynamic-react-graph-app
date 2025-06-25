@@ -101,7 +101,6 @@ const App: React.FC = () => {
       toast("History already in list", { type: "success" });
       return;
     } else if (sessionStorage.getItem("agreed") === "true") {
-      console.log(window.location.search, "parameter?");
       dispatch(createHistoryEntry(window.location.href));
       dispatch(addHistoryEntry());
       navigate(`/${data.apartmentType}/${data.quarterly[0]}/${data.quarterly[1]}`);
